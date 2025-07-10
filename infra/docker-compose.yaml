@@ -16,7 +16,7 @@ services:
             - "5672:5672"
             - "15672:15672"
     auth:
-        image: neerajsurjaye/auth
+        image: neerajsurjaye/auth:latest
         ports:
             - 5757:5757
         environment:
@@ -24,9 +24,10 @@ services:
             PORT: 5757
             MYSQL_USER: admin
             MYSQL_PASSWORD: admin
-            MYSQL_CONNECTION: 127.0.0.1
+            MYSQL_CONNECTION: mysql
             MYSQL_DB: chatdb
-            MYSQL_PORT: 3307
+            # Port inside container
+            MYSQL_PORT: 3306
             JWT_SECRET: SPECSJWTSECRET
 
 volumes:
