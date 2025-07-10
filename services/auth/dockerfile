@@ -1,0 +1,15 @@
+FROM node:current-alpine3.22
+
+WORKDIR /app
+
+COPY package.json /app
+
+RUN npm install
+
+COPY . /app
+
+EXPOSE 3307
+
+RUN npm run build
+
+CMD [ "node" , "./dist/app.js" ]

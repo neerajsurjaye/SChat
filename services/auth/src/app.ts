@@ -6,7 +6,7 @@ import dotenv from "dotenv";
 import init from "./db/init-db.js";
 import util from "./utils/commonUtils.js";
 
-init();
+// init();
 
 dotenv.config({ path: ".env" });
 

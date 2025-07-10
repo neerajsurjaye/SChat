@@ -1,14 +1,17 @@
 import { Request, Response } from "express";
 import logger from "./utils/logger.js";
 import util from "./utils/commonUtils.js";
-import mysqlConn from "./db/db.js";
+import MySqlClient from "./db/db.js";
 import { RowDataPacket } from "mysql2";
 import bcrypt from "bcrypt";
 import jwt, { JwtPayload } from "jsonwebtoken";
+import { Pool } from "mysql2/promise";
 
 async function registerUser(req: Request, res: Response) {
     const username: string = req.body?.username;
     const password: string = req.body?.password;
+
+    const mysqlConn: Pool = MySqlClient.getMySqlConnection();
 
     if (username == null || password == null) {
         res.status(400).json(
@@ -85,6 +88,8 @@ const verifyJWT = (req: Request, res: Response) => {
 const generateJWT = async (req: Request, res: Response) => {
     const username: string = req.body?.username;
     const password: string = req.body?.password;
+
+    const mysqlConn: Pool = MySqlClient.getMySqlConnection();
 
     const [result] = await mysqlConn.execute<RowDataPacket[]>(
         "SELECT username, password FROM users WHERE username = ?",
