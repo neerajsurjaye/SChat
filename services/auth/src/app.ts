@@ -1,7 +1,7 @@
 import express, { Express, NextFunction, Request, Response } from "express";
 import registerRoutes from "./routes.js";
 import logger from "./utils/logger.js";
-import configExpress from "./config.js";
+import configExpress from "./utils/config.js";
 import dotenv from "dotenv";
 import init from "./db/init-db.js";
 import util from "./utils/commonUtils.js";
