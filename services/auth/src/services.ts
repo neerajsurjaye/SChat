@@ -7,6 +7,10 @@ import bcrypt from "bcrypt";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { Pool } from "mysql2/promise";
 
+const JWT_SECRET = process.env.JWT_SECRET;
+
+util.checkEnv({ JWT_SECRET });
+
 async function registerUser(req: Request, res: Response) {
     const username: string = req.body?.username;
     const password: string = req.body?.password;
@@ -67,7 +71,7 @@ const verifyJWT = (req: Request, res: Response) => {
 
     const jwtToken: string = String(rawJwtToken);
 
-    const jwtSecret: string = String(process.env.JWT_SECRET);
+    const jwtSecret: string = String(JWT_SECRET);
 
     let token: JwtPayload;
     try {
@@ -113,7 +117,7 @@ const generateJWT = async (req: Request, res: Response) => {
         return;
     }
 
-    const jwtSecret: string = String(process.env.JWT_SECRET);
+    const jwtSecret: string = String(JWT_SECRET);
     const resJwt: string = jwt.sign({ username: username }, jwtSecret);
 
     res.status(200).json(util.successResp("JWT created", resJwt));
