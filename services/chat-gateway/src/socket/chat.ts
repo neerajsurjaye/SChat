@@ -3,12 +3,15 @@ import { DefaultEventsMap, Server, Socket } from "socket.io";
 import logger from "../utils/logger.js";
 import commonUtils from "../utils/commonUtils.js";
 import constants from "../utils/constants.js";
+import HandleAmqp from "../rabbitmq/handleAmqp.js";
 
 dotenv.config({ path: ".env" });
 
 const AUTH_URL = process.env.AUTH_URL;
 
 commonUtils.checkEnv({ AUTH_URL });
+
+let queueConnection: HandleAmqp;
 
 function configSocket(
     io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>
@@ -70,8 +73,19 @@ function configSocket(
             `Connected!! Welcome user : ${socket.data?.user}`
         );
 
-        socket.on(constants.SOCKET_EVENT_MESSAGE, (data) => {
+        socket.on(constants.SOCKET_EVENT_MESSAGE, async (data) => {
             const receiverid = users[data.to];
+
+            if (!queueConnection) {
+                queueConnection = await HandleAmqp.getInstance();
+            }
+
+            await queueConnection.pushMessage({
+                to: data.to,
+                from: userid,
+                message: data.message,
+                timestamp: new Date().toISOString(),
+            });
 
             if (receiverid) {
                 io.to(receiverid).emit(
