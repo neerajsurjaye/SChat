@@ -1,3 +1,3 @@
 # SChat
 
-A real time chat application
+A real time microservice chat application.
