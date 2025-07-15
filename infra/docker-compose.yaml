@@ -29,6 +29,13 @@ services:
             # Port inside container
             MYSQL_PORT: 3306
             JWT_SECRET: SPECSJWTSECRET
-
+    gateway:
+        image: neerajsurjaye/gateway:latest
+        ports:
+            - 5758:5758
+        environment:
+            AUTH_URL: http://auth:5757
+            RABBIT_URL: amqp://rabbitmq:5672
+            PORT: 5758
 volumes:
     mysql-data:

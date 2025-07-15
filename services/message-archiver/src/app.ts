@@ -1,11 +1,13 @@
-import express, { Express, NextFunction, Request, Response } from "express";
+import HandleAmqp from "./rabbitmq/handleAmqp.js";
+import logger from "./utils/logger.js";
 
-const app: Express = express();
+async function main() {
+    const handleAmqp: HandleAmqp = await HandleAmqp.getInstance();
 
-app.get("/test", (req: Request, res: Response, next: NextFunction) => {
-    res.send("Message Serv test");
-});
+    handleAmqp.addConsumer("messages", (message) => {
+        logger.debug(message);
+        logger.debug(JSON.parse(message.content.toString()));
+    });
+}
 
-app.listen(5000, () => {
-    console.log("Listening on 5000");
-});
+main();
