@@ -37,5 +37,14 @@ services:
             AUTH_URL: http://auth:5757
             RABBIT_URL: amqp://rabbitmq:5672
             PORT: 5758
+    archiver:
+        image: neerajsurjaye/archiver:latest
+        environment:
+            RABBIT_URL: amqp://rabbitmq:5672
+            MYSQL_USER: admin
+            MYSQL_PASSWORD: admin
+            MYSQL_CONNECTION: mysql
+            MYSQL_DB: chatdb
+            MYSQL_PORT: 3306
 volumes:
     mysql-data:

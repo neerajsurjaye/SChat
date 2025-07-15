@@ -5,8 +5,9 @@ import MySqlClient from "./db/db.js";
 import { Pool } from "mysql2/promise";
 
 async function main() {
-    const handleAmqp: HandleAmqp = await HandleAmqp.getInstance();
+    let handleAmqp: HandleAmqp = await HandleAmqp.getInstance();
 
+    logger.debug("Connection initiated to rabbitmq");
     handleAmqp.addConsumer("messages", (channel: Channel) => {
         return async (message: ConsumeMessage) => {
             const parsedMessage = JSON.parse(message.content.toString());
