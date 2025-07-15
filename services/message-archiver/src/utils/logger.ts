@@ -1,4 +1,6 @@
 import winston from "winston";
+import { cli } from "winston/lib/winston/config/index.js";
+const { combine, timestamp, json } = winston.format;
 
 const logger = winston.createLogger({
     // level: "info",

@@ -1,4 +1,4 @@
-import amqplib, { Channel, ChannelModel } from "amqplib";
+import amqplib, { Channel, ChannelModel, ConsumeMessage } from "amqplib";
 import dotenv from "dotenv";
 import commonUtils from "../utils/commonUtils.js";
 import logger from "../utils/logger.js";
@@ -84,10 +84,11 @@ class HandleAmqp {
 
     public async addConsumer(
         queueName: string,
-        callback: (msg: amqplib.ConsumeMessage | null) => void
+        callback: (channel: Channel) => (message: ConsumeMessage) => any
     ) {
         try {
-            await this.channel.consume(queueName, callback);
+            const cb = callback(this.channel);
+            await this.channel.consume(queueName, cb);
         } catch (err) {
             logger.error(`Error while consuming messages :: `, err);
         }
