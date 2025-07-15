@@ -20,9 +20,23 @@ class HandleAmqp {
     private constructor() {}
 
     public static async getInstance() {
+        let tries = 10;
+
         if (!HandleAmqp.instance) {
             HandleAmqp.instance = new HandleAmqp();
-            await HandleAmqp.instance.init();
+
+            while (tries) {
+                try {
+                    await HandleAmqp.instance.init();
+                    break;
+                } catch (err) {
+                    logger.warn(
+                        `Got excetion while trying to initiate connection to amqp Retrying : ${err}`
+                    );
+                    await setTimeout(1000 * (11 - tries));
+                    tries -= 1;
+                }
+            }
         }
         return HandleAmqp.instance;
     }
@@ -46,7 +60,7 @@ class HandleAmqp {
             });
         } catch (err) {
             const error: string = `Got exception while trying to connect with rabbitmq::\n${err}`;
-            logger.error(error);
+            logger.warn(error);
             throw new Error(error);
         } finally {
             this.isInitializing = false;
