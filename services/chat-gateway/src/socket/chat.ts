@@ -88,10 +88,11 @@ function configSocket(
             });
 
             if (receiverid) {
-                io.to(receiverid).emit(
-                    constants.SOCKET_EVENT_MESSAGE,
-                    data.message
-                );
+                io.to(receiverid).emit(constants.SOCKET_EVENT_MESSAGE, {
+                    from: userid,
+                    to: data.to,
+                    message: data.message,
+                });
             }
             if (!receiverid) {
                 socket.emit(
