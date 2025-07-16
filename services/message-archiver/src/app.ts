@@ -2,8 +2,7 @@ import { Channel, ConsumeMessage } from "amqplib";
 import HandleAmqp from "./rabbitmq/handleAmqp.js";
 import logger from "./utils/logger.js";
 import MySqlClient from "./db/db.js";
-import { Field, FieldPacket, Pool, RowDataPacket } from "mysql2/promise";
-import { log } from "console";
+import { Pool, RowDataPacket } from "mysql2/promise";
 
 async function main() {
     let handleAmqp: HandleAmqp = await HandleAmqp.getInstance();
@@ -25,6 +24,9 @@ async function main() {
 
             // Find user id
 
+            logger.debug(
+                `Got message from : ${parsedMessage.from} and send to : ${parsedMessage.to} :: message :${parsedMessage.message}`
+            );
             const [ids] = await mysqlConnection.execute<RowDataPacket[]>(
                 "SELECT id FROM users where username in (?, ?)",
                 [parsedMessage.from, parsedMessage.to]
@@ -37,15 +39,17 @@ async function main() {
                     "INSERT INTO messages(sender, receiver, message, created_at) values(?,?,?,?)",
                     [
                         ids[0].id,
-                        ids[1].id,
+                        ids[1]?.id || ids[0].id, //if id[1] doesn't exist(In case of sender and receiver is same) replaces id[1] with id[0]
                         parsedMessage.message,
                         new Date(parsedMessage.timestamp),
                     ]
                 );
                 channel.ack(message);
             } catch (err) {
-                logger.error("Error while trying to start consumer", err);
-                throw new Error(err);
+                logger.error(
+                    "Error while trying to insert data into message table",
+                    err
+                );
             }
         };
     });
