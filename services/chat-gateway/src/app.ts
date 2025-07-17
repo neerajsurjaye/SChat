@@ -5,6 +5,7 @@ import { Server } from "socket.io";
 import { createServer } from "node:http";
 import logger from "./utils/logger.js";
 import configSocket from "./socket/chat.js";
+import registerRoutes from "./routes.js";
 
 dotenv.config({ path: ".env" });
 const port = process.env.PORT || 5000;
@@ -19,6 +20,7 @@ const io = new Server(currServer, {
 });
 
 configExpress(app);
+registerRoutes(app);
 
 configSocket(io);
 
