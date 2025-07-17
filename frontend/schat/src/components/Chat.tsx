@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import ChatInput from "./ChatInput";
 import ChatMessages from "./ChatMessages";
 import { MESSAGE_TYPE_RECEIVED, MESSAGE_TYPE_SEND } from "../utils/constants";
+import initializeSocket from "../utils/socket";
 import socket from "../utils/socket";
 
 function Chat(props: any) {
@@ -15,17 +16,31 @@ function Chat(props: any) {
     let [message, setMessage] = useState<any>();
     let toUser = props.toUser;
 
+    // const socket = initializeSocket();
+
     useEffect(() => {
         socket.on("message", (msg) => {
-            console.log({ msg, toUser: props.toUser });
+            console.log("OnMessage ", { msg, toUser: props.toUser });
 
             if (!msg.from || !msg.to || !msg.message) {
                 return;
             }
-            if (msg.from == props.toUser)
+            if (msg.from == props.toUser) {
                 setReceivedMessage({ message: msg.message });
+            } else {
+                console.log(
+                    "Message from external user :: ",
+                    msg.from,
+                    "Current to user",
+                    props.toUser
+                );
+            }
         });
-    }, []);
+
+        return () => {
+            socket.removeListener("message");
+        };
+    }, [props.toUser]);
 
     useEffect(() => {
         console.log("Input Changed :: ", { userMessage });

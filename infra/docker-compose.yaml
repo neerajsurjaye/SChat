@@ -17,8 +17,8 @@ services:
             - "15672:15672"
     auth:
         image: neerajsurjaye/auth:latest
-        ports:
-            - 5757:5757
+        # ports:
+        # - 5757:5757
         environment:
             USER: SPEC
             PORT: 5757
