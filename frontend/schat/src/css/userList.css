@@ -1,0 +1,8 @@
+.user-list-comp {
+    border: 1px solid black;
+    margin: 2px;
+}
+
+.user-list-comp:hover {
+    background-color: #aaa;
+}

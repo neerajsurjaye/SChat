@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { sendPostRequest } from "../utils/network";
 import { LOCAL_STORAGE_AUTH_TOKEN } from "../utils/constants";
+import SocketHandler from "../utils/socket";
 
 async function login(userDetails: any) {
     let resp = await sendPostRequest("v1/user/login", userDetails);
@@ -8,6 +9,7 @@ async function login(userDetails: any) {
 
     if (resp.success) {
         localStorage.setItem(LOCAL_STORAGE_AUTH_TOKEN, resp.data);
+        SocketHandler.reCreateSocket();
     }
 }
 

@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import ChatInput from "./ChatInput";
 import ChatMessages from "./ChatMessages";
 import { MESSAGE_TYPE_RECEIVED, MESSAGE_TYPE_SEND } from "../utils/constants";
-import initializeSocket from "../utils/socket";
-import socket from "../utils/socket";
+
+import SocketHandler from "../utils/socket";
 
 function Chat(props: any) {
     let [userMessage, setUserMessage] = useState<{ message: string }>({
@@ -14,12 +14,15 @@ function Chat(props: any) {
     });
 
     let [message, setMessage] = useState<any>();
+    // let toUser = useContext();
     let toUser = props.toUser;
 
     // const socket = initializeSocket();
 
-    useEffect(() => {
-        socket.on("message", (msg) => {
+    let socket = SocketHandler.getSocket();
+
+    const handleMessage = useCallback(
+        (msg: any) => {
             console.log("OnMessage ", { msg, toUser: props.toUser });
 
             if (!msg.from || !msg.to || !msg.message) {
@@ -35,12 +38,17 @@ function Chat(props: any) {
                     props.toUser
                 );
             }
-        });
+        },
+        [props.toUser]
+    );
+
+    useEffect(() => {
+        socket.on("message", handleMessage);
 
         return () => {
-            socket.removeListener("message");
+            socket.removeListener("message", handleMessage);
         };
-    }, [props.toUser]);
+    }, [handleMessage]);
 
     useEffect(() => {
         console.log("Input Changed :: ", { userMessage });
