@@ -8,9 +8,13 @@ const logger = winston.createLogger({
         winston.format.timestamp({
             format: "YYYY-MM-DD hh:mm:ss.SSS A",
         }),
+        winston.format.errors({ stack: true }),
         winston.format.align(),
         winston.format.printf(
-            (info) => `[${info.timestamp}] ${info.level}: ${info.message}`
+            (info) =>
+                `[${info.timestamp}] ${info.level}: ${
+                    info.stack || info.message
+                }`
         )
     ),
     transports: [new winston.transports.Console()],
