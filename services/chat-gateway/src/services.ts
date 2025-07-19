@@ -28,3 +28,19 @@ export async function generateJWT(req: Request, res: Response) {
     logger.debug(authResp);
     res.status(authResp.status || 500).json(authResp.json);
 }
+
+export async function searchUser(req: Request, res: Response) {
+    let username = req.query.username;
+
+    if (!username) {
+        res.status(400).json(commonUtils.errorResp("Please provide username"));
+        return;
+    }
+
+    let userResp = await commonUtils.fetchGet(
+        AUTH_URL,
+        `/v1/user/search?username=${username}`
+    );
+
+    res.status(userResp.status || 500).json(userResp.json);
+}

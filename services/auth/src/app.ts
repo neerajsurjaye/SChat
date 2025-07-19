@@ -17,7 +17,7 @@ configExpress(app);
 registerRoutes(app);
 
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-    logger.error(`Catched exception in global error handler : ${err}`);
+    logger.error(`Catched exception in global error handler :`, err);
     res.status(500).json(util.errorResp("Internal Server Error"));
 });
 

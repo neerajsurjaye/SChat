@@ -21,6 +21,7 @@ export default function UsersList(props: any) {
                     onClick={() => {
                         setToUser(users[idx].username);
                     }}
+                    key={users[idx].username}
                 >
                     <div className="username">{users[idx].username}</div>
                     <div className="messages">{users[idx].messages}</div>
@@ -36,6 +37,8 @@ export default function UsersList(props: any) {
         }
         if (msg.from != toUser) {
             setUsers((oldUsers) => {
+                console.log("userUpdated");
+
                 let newUsers = [...oldUsers];
                 let userUpdated = false;
 

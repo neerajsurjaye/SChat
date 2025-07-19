@@ -7,6 +7,7 @@ const routesV1 = (): Router => {
     router.post("/user", services.registerUser);
     router.get("/user/verify", services.verifyJWT);
     router.post("/user/login", services.generateJWT);
+    router.get("/user/search", services.searchUser);
     return router;
 };
 

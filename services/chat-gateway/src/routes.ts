@@ -1,5 +1,10 @@
 import express, { Express, Router } from "express";
-import { generateJWT, registerUser, verifyJWT } from "./services.js";
+import {
+    generateJWT,
+    registerUser,
+    searchUser,
+    verifyJWT,
+} from "./services.js";
 import logger from "./utils/logger.js";
 
 const routesV1 = (): Router => {
@@ -7,6 +12,8 @@ const routesV1 = (): Router => {
     router.post("/user", registerUser);
     router.get("/user/verify", verifyJWT);
     router.post("/user/login", generateJWT);
+    router.get("/user/search", searchUser);
+
     return router;
 };
 

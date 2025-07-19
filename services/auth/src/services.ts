@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import logger from "./utils/logger.js";
 import util from "./utils/commonUtils.js";
 import MySqlClient from "./db/db.js";
-import { RowDataPacket } from "mysql2";
+import { FieldPacket, RowDataPacket } from "mysql2";
 import bcrypt from "bcrypt";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { Pool } from "mysql2/promise";
@@ -123,10 +123,29 @@ const generateJWT = async (req: Request, res: Response) => {
     res.status(200).json(util.successResp("JWT created", resJwt));
 };
 
+const searchUser = async (req: Request, res: Response) => {
+    let username = req.query.username as string;
+    const mysqlConn: Pool = MySqlClient.getMySqlConnection();
+
+    if (!username || username == "") {
+        res.status(400).json(util.errorResp("Pleaes provide a username"));
+        return;
+    }
+
+    const [users] = await mysqlConn.execute<RowDataPacket[]>(
+        "SELECT username FROM users WHERE username like ?",
+        [`${username}%`]
+    );
+
+    let existingUsers = users.map((x) => x.username);
+    res.status(200).send(util.successResp("Users fetched", existingUsers));
+};
+
 const services = {
     registerUser,
     verifyJWT,
     generateJWT,
+    searchUser,
 };
 
 export default services;

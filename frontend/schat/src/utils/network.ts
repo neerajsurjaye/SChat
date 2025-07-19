@@ -7,7 +7,10 @@ export async function sendPostRequest(url: string, body: any) {
         body: JSON.stringify(body),
     });
 
-    console.log(response);
+    return await response.json();
+}
 
+export async function sendGetRequest(url: string) {
+    let response = await fetch(generateUrl(url));
     return await response.json();
 }
