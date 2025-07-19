@@ -27,19 +27,31 @@ export default async function initConsumer() {
             logger.debug(
                 `Got message from : ${parsedMessage.from} and send to : ${parsedMessage.to} :: message :${parsedMessage.message}`
             );
-            const [ids] = await mysqlConnection.execute<RowDataPacket[]>(
-                "SELECT id FROM users where username in (?, ?)",
-                [parsedMessage.from, parsedMessage.to]
+
+            //GIVES RESULT IN SAME ORDER FROM TO ORDER DOESN'T MATTER
+            // const [ids] = await mysqlConnection.execute<RowDataPacket[]>(
+            //     "SELECT id FROM users where username in (?, ?)",
+            //     [parsedMessage.from, parsedMessage.to]
+            // );
+
+            const [from] = await mysqlConnection.execute<RowDataPacket[]>(
+                "SELECT id FROM users where username in (?)",
+                [parsedMessage.from]
             );
 
-            logger.debug(ids);
+            const [to] = await mysqlConnection.execute<RowDataPacket[]>(
+                "SELECT id FROM users where username in (?)",
+                [parsedMessage.to]
+            );
+
+            logger.debug({ from, to });
 
             try {
                 await mysqlConnection.execute(
                     "INSERT INTO messages(sender, receiver, message, created_at) values(?,?,?,?)",
                     [
-                        ids[0].id,
-                        ids[1]?.id || ids[0].id, //if id[1] doesn't exist(In case of sender and receiver is same) replaces id[1] with id[0]
+                        from[0].id,
+                        to[0].id,
                         parsedMessage.message,
                         new Date(parsedMessage.timestamp),
                     ]
