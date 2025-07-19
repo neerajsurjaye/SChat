@@ -1,21 +1,10 @@
 import express, { Express, Router } from "express";
-import {
-    findMessages,
-    generateJWT,
-    registerUser,
-    searchUser,
-    verifyJWT,
-} from "./services.js";
 import logger from "./utils/logger.js";
+import getUserMessages from "./services.js";
 
 const routesV1 = (): Router => {
     const router: Router = express.Router();
-    router.post("/user", registerUser);
-    router.get("/user/verify", verifyJWT);
-    router.post("/user/login", generateJWT);
-    router.get("/user/search", searchUser);
-    router.get("/message", findMessages);
-
+    router.get("/message", getUserMessages);
     return router;
 };
 

@@ -29,6 +29,7 @@ services:
             # Port inside container
             MYSQL_PORT: 3306
             JWT_SECRET: SPECSJWTSECRET
+
     gateway:
         image: neerajsurjaye/gateway:latest
         ports:
@@ -37,8 +38,12 @@ services:
             AUTH_URL: http://auth:5757
             RABBIT_URL: amqp://rabbitmq:5672
             PORT: 5758
+            ARCHIVER_URL: http://archiver:5759
+
     archiver:
         image: neerajsurjaye/archiver:latest
+        # ports:
+        # - 5759:5759
         environment:
             RABBIT_URL: amqp://rabbitmq:5672
             MYSQL_USER: admin
@@ -46,5 +51,6 @@ services:
             MYSQL_CONNECTION: mysql
             MYSQL_DB: chatdb
             MYSQL_PORT: 3306
+            PORT: 5759
 volumes:
     mysql-data:
