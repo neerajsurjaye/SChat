@@ -66,6 +66,15 @@ function configSocket(
 
     io.on("connection", (socket: Socket) => {
         const userid: string = String(socket.data.user);
+
+        if (userid in users) {
+            socket.emit(
+                constants.SOCKET_EVENT_ERROR,
+                `User already connected in another tab cannot connect`
+            );
+            return;
+        }
+
         users[userid] = socket.id;
 
         socket.emit(
