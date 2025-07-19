@@ -47,19 +47,35 @@ export async function searchUser(req: Request, res: Response) {
 }
 
 export async function findMessages(req: Request, res: Response) {
-    let from = req.query.from as string;
     let to = req.query.to as string;
 
-    if (!from || !to) {
+    const rawToken = req.headers.authorization;
+
+    const resp = await commonUtils.fetchGet(AUTH_URL, "/v1/user/verify", {
+        headers: {
+            Authorization: rawToken,
+        },
+    });
+    if (resp.status != 200) {
         res.status(400).json(
-            commonUtils.errorResp("Please provide from and to")
+            commonUtils.errorResp(
+                `Error from auth : ${resp.json?.message} : with status ${resp.status}`
+            )
+        );
+        return;
+    }
+    const user = resp.json?.data?.username;
+
+    if (!user || !to) {
+        res.status(400).json(
+            commonUtils.errorResp("Please provide token and to")
         );
         return;
     }
 
     let messages = await commonUtils.fetchGet(
         ARCHIVER_URL,
-        `/v1/message?from=${from}&to=${to}`
+        `/v1/message?from=${user}&to=${to}`
     );
 
     res.status(messages.status || 500).json(messages.json);

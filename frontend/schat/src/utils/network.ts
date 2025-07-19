@@ -10,7 +10,12 @@ export async function sendPostRequest(url: string, body: any) {
     return await response.json();
 }
 
-export async function sendGetRequest(url: string) {
-    let response = await fetch(generateUrl(url));
+export async function sendGetRequest(
+    url: string,
+    options: { headers?: any } = {}
+) {
+    let response = await fetch(generateUrl(url), {
+        headers: options?.headers,
+    });
     return await response.json();
 }

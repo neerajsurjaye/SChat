@@ -1,8 +1,7 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import Chat from "../components/Chat";
 import ChatUsers from "../components/ChatUsers";
 import { ChatContext } from "../context/ChatContext";
-import SearchUsers from "../components/SearchUsers";
 
 export default function ChatPage() {
     let [toUser, setToUser] = useState("");
