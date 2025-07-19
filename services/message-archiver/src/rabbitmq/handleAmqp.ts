@@ -31,7 +31,8 @@ class HandleAmqp {
                     break;
                 } catch (err) {
                     logger.warn(
-                        `Got excetion while trying to initiate connection to amqp Retrying : ${err}`
+                        `Got excetion while trying to initiate connection to amqp Retrying :`,
+                        err
                     );
                     await setTimeout(1000 * (11 - tries));
                     tries -= 1;
@@ -56,12 +57,16 @@ class HandleAmqp {
             });
 
             this.connection.on("error", (err) => {
-                logger.error(`An error occured with amqplib ${err}`);
+                logger.error(`An error occured with amqplib `, err);
             });
         } catch (err) {
-            const error: string = `Got exception while trying to connect with rabbitmq::\n${err}`;
-            logger.warn(error);
-            throw new Error(error);
+            logger.warn(
+                `Got exception while trying to connect with rabbitmq:: `,
+                err
+            );
+            throw new Error(
+                `Got exception while trying to connect with rabbitmq:: ` + err
+            );
         } finally {
             this.isInitializing = false;
         }
