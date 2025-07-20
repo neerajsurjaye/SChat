@@ -49,7 +49,12 @@ class HandleAmqp {
         try {
             this.connection = await amqplib.connect(RABBIT_URL);
             this.channel = await this.connection.createChannel();
-            await this.channel.assertQueue("messages", { durable: true });
+            await this.channel.assertQueue("messages", {
+                durable: true,
+                arguments: {
+                    "x-message-ttl": 6000,
+                },
+            });
 
             this.connection.on("close", () => {
                 this.channel = null;

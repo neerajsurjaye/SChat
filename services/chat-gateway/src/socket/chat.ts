@@ -85,6 +85,14 @@ function configSocket(
         socket.on(constants.SOCKET_EVENT_MESSAGE, async (data) => {
             const receiverid = users[data.to];
 
+            if (!data.to || data.to == "") {
+                socket.emit(
+                    constants.SOCKET_EVENT_WARN,
+                    `Select a user to send message to`
+                );
+                return;
+            }
+
             if (!queueConnection) {
                 queueConnection = await HandleAmqp.getInstance();
             }
