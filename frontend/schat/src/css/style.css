@@ -1,0 +1,51 @@
+* {
+    font-family: Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
+        "Helvetica Neue", sans-serif;
+    box-sizing: border-box;
+    color: white;
+}
+
+body {
+    margin: 0%;
+    background-color: #111;
+    height: 100vh;
+}
+
+#root {
+    height: 100%;
+}
+
+.btn {
+    padding: 1rem;
+    color: white;
+    text-decoration: none;
+    display: block;
+    width: fit-content;
+
+    background-color: rgba(255, 255, 255, 0.1);
+
+    transition: all 0.2s;
+    margin: 4px;
+
+    border: 2px solid rgba(127, 255, 127, 0.1);
+    box-sizing: border-box;
+}
+
+.btn:hover {
+    background-color: rgba(0, 255, 0, 0.2);
+    border: 2px solid rgba(127, 255, 127, 0.1);
+}
+
+.no-link {
+    text-decoration: none;
+}
+
+.mr-lft-auto {
+    margin-left: auto;
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
