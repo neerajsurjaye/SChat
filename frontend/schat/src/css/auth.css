@@ -1,0 +1,15 @@
+.auth-component {
+    width: 25%;
+}
+
+@media screen and (max-width: 1000px) {
+    .auth-component {
+        width: 50%;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .auth-component {
+        width: 90%;
+    }
+}
