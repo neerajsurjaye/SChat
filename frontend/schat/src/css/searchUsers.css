@@ -1,0 +1,15 @@
+.search-users {
+    margin: 2px;
+    background-color: #333;
+    padding: 4px;
+    max-height: 250px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.user-list {
+    overflow: scroll;
+    padding: 8px;
+    height: 100%;
+}

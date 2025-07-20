@@ -6,6 +6,8 @@ import { MESSAGE_TYPE_RECEIVED, MESSAGE_TYPE_SEND } from "../utils/constants";
 import SocketHandler from "../utils/socket";
 import OldMessages from "./OldMessages";
 
+import "../css/chat.css";
+
 function Chat(props: any) {
     let [userMessage, setUserMessage] = useState<{ message: string }>({
         message: "",
@@ -85,6 +87,7 @@ function Chat(props: any) {
 
     return (
         <div className="chat">
+            <div className="receiver">{toUser}</div>
             <OldMessages></OldMessages>
             <ChatMessages message={message}></ChatMessages>
             <ChatInput setUserMessage={setUserMessage}></ChatInput>

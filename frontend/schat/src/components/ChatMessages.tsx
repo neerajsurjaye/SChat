@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import "../css/chatMessage.css";
 import Message from "./Message";
-import OldMessages from "./OldMessages";
 
 function generateMessageComp(message: any) {
     return (
@@ -9,6 +8,7 @@ function generateMessageComp(message: any) {
             message={message.message}
             type={message.type}
             iat={message.iat}
+            key={message.iat}
         ></Message>
     );
 }

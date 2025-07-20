@@ -6,3 +6,20 @@
 .user-list-comp:hover {
     background-color: #aaa;
 }
+
+.chat-users-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-list-comp {
+    display: flex !important;
+}
+
+.user-list-comp > .username {
+    width: 80%;
+}
+
+.user-list-comp > .messages {
+    display: flex;
+}

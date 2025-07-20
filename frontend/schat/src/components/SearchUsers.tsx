@@ -2,6 +2,7 @@ import { use, useCallback, useContext, useEffect, useState } from "react";
 import { sendGetRequest } from "../utils/network";
 import { generateUrl } from "../utils/url";
 import { ChatContext } from "../context/ChatContext";
+import "../css/searchUsers.css";
 
 export default function SearchUsers(props: any) {
     let [username, setUsername] = useState("");
@@ -30,6 +31,7 @@ export default function SearchUsers(props: any) {
                     setToUser(user);
                 }}
                 key={user}
+                className="btn btn-small"
             >
                 {user}
             </button>
@@ -41,14 +43,17 @@ export default function SearchUsers(props: any) {
     }, [searchUser]);
 
     return (
-        <div className="searchUsers">
-            <h1>Search Users</h1>
-            <input
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-            />
-            <div className="userList">{genUserList()}</div>
+        <div className="search-users">
+            <div className="input-container">
+                <span>Search Users</span>
+                <input
+                    className="input"
+                    type="text"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                />
+            </div>
+            <div className="user-list">{genUserList()}</div>
         </div>
     );
 }

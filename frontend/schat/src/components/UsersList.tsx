@@ -17,7 +17,7 @@ export default function UsersList(props: any) {
         for (let idx in users) {
             userCompList.push(
                 <button
-                    className="user-list-comp"
+                    className="btn btn-wide user-list-comp"
                     onClick={() => {
                         setToUser(users[idx].username);
                     }}
@@ -66,5 +66,5 @@ export default function UsersList(props: any) {
         };
     }, [handleMessage]);
 
-    return <div className="usersList">{createUserList()}</div>;
+    return <div className="chat-users-list">{createUserList()}</div>;
 }
