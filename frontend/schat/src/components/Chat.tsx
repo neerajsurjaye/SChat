@@ -88,8 +88,10 @@ function Chat(props: any) {
     return (
         <div className="chat">
             <div className="receiver">{toUser}</div>
-            <OldMessages></OldMessages>
-            <ChatMessages message={message}></ChatMessages>
+            <div className="chat-messages">
+                <OldMessages></OldMessages>
+                <ChatMessages message={message}></ChatMessages>
+            </div>
             <ChatInput setUserMessage={setUserMessage}></ChatInput>
         </div>
     );

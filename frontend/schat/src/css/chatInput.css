@@ -1,0 +1,17 @@
+.chat-input {
+    position: sticky;
+    /* bottom: 16px; */
+    background-color: #111;
+    display: flex;
+    margin-top: auto;
+    margin-bottom: 16px;
+}
+
+.chat-input > input {
+    width: 100%;
+}
+
+.chat-input > button {
+    margin-left: 16px;
+    margin-right: 16px;
+}

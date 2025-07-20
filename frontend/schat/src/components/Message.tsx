@@ -1,4 +1,5 @@
 import { MESSAGE_TYPE_RECEIVED, MESSAGE_TYPE_SEND } from "../utils/constants";
+import "../css/message.css";
 
 export default function Message(
     props: Readonly<{
@@ -18,7 +19,9 @@ export default function Message(
     return (
         <div className={compClass} key={props.iat}>
             <div className="message-content">{props.message}</div>
-            <div className="message-iat">{props.iat}</div>
+            <div className="message-iat">
+                {new Date(props.iat).toLocaleTimeString()}
+            </div>
         </div>
     );
 }

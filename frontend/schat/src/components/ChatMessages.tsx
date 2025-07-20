@@ -34,7 +34,7 @@ function ChatMessages(
         }
     }, [message]);
 
-    return <div className="new-chat-messages">{messageComp}</div>;
+    return <>{messageComp}</>;
 }
 
 export default ChatMessages;

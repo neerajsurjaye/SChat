@@ -58,5 +58,5 @@ export default function OldMessages() {
         fetchUserMessages();
     }, [fetchUserMessages]);
 
-    return <div className="old-chat-messages">{messageComp}</div>;
+    return <>{messageComp}</>;
 }
