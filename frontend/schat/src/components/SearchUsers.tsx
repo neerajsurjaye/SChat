@@ -16,7 +16,7 @@ export default function SearchUsers(props: any) {
         }
 
         const resp = await sendGetRequest(
-            generateUrl(`/v1/user/search?username=${username}`)
+            generateUrl(`/auth/v1/user/search?username=${username}`)
         );
         if (resp.success) {
             let data = resp.data;

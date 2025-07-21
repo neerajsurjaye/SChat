@@ -77,6 +77,7 @@ function configSocket(
 
     io.on("connection", async (socket: Socket) => {
         const userid: string = String(socket.data.user);
+        console.debug("New User Connected");
 
         // if (userid in users) {
         if (await redis.exists(userid)) {

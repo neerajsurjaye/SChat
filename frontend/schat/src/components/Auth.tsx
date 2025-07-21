@@ -24,7 +24,7 @@ export default function Auth() {
     }>({ type: "", message: "" });
 
     async function login(userDetails: any) {
-        let resp = await sendPostRequest("v1/user/login", userDetails);
+        let resp = await sendPostRequest("/auth/v1/user/login", userDetails);
         console.log("RespData", resp);
 
         if (resp.success) {
@@ -44,7 +44,7 @@ export default function Auth() {
     }
 
     async function signUp(userDetails: any) {
-        let resp = await sendPostRequest("v1/user/", userDetails);
+        let resp = await sendPostRequest("/auth/v1/user/", userDetails);
         console.log("RespData", resp);
 
         if (resp.success) {

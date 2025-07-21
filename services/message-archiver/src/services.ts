@@ -4,16 +4,46 @@ import MySqlClient from "./db/db.js";
 import { RowDataPacket } from "mysql2/promise";
 import logger from "./utils/logger.js";
 
+const AUTH_URL = process.env.AUTH_URL;
+commonUtils.checkEnv({ AUTH_URL });
+
 export default async function getUserMessages(req: Request, resp: Response) {
-    const fromUser = req.query.from;
+    let fromUser = req.query.from;
     const toUser = req.query.to;
 
     // logger.debug({ fromUser, toUser });
+    if (!fromUser) {
+        const rawToken = req.headers.authorization;
+        const resp = await commonUtils.fetchGet(AUTH_URL, "/v1/user/verify", {
+            headers: {
+                Authorization: rawToken,
+            },
+        });
+
+        if (resp.status != 200) {
+            resp.status(400).json(
+                commonUtils.errorResp(
+                    `Error from auth : ${resp.json?.message} : with status ${resp.status}`
+                )
+            );
+            return;
+        }
+        const user = resp.json?.data?.username;
+
+        if (!user) {
+            resp.status(400).json(
+                commonUtils.errorResp("Please provide token and to")
+            );
+            return;
+        }
+        fromUser = user;
+    }
 
     if (!fromUser || !toUser) {
         resp.status(400).json(
             commonUtils.errorResp("Both fromUser and toUser is required")
         );
+        return;
     }
 
     const fetchMessageQuery = `

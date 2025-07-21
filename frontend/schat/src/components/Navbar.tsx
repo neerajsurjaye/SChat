@@ -3,6 +3,7 @@ import "../css/navBar.css";
 import { LOCAL_STORAGE_AUTH_TOKEN } from "../utils/constants";
 import { useContext, useState } from "react";
 import { AppContext } from "../context/AppContext";
+import SocketHandler from "../utils/socket";
 
 export default function Navbar() {
     const { isLoggedIn, setIsLoggedIn } = useContext(AppContext);
@@ -10,6 +11,7 @@ export default function Navbar() {
     const signOut = () => {
         localStorage.removeItem(LOCAL_STORAGE_AUTH_TOKEN);
         setIsLoggedIn(false);
+        SocketHandler.getSocket().disconnect();
     };
 
     return (

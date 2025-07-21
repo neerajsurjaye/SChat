@@ -21,12 +21,16 @@ export default function OldMessages() {
     let [messageComp, setMessageComp] = useState<ReactNode[]>([]);
 
     let fetchUserMessages = useCallback(async () => {
-        let userMessages = await sendGetRequest(`/v1/message?to=${toUser}`, {
-            headers: {
-                Authorization:
-                    "bearer " + localStorage.getItem(LOCAL_STORAGE_AUTH_TOKEN),
-            },
-        });
+        let userMessages = await sendGetRequest(
+            `/archive/v1/message?to=${toUser}`,
+            {
+                headers: {
+                    Authorization:
+                        "bearer " +
+                        localStorage.getItem(LOCAL_STORAGE_AUTH_TOKEN),
+                },
+            }
+        );
 
         if (!userMessages.success) {
             return;

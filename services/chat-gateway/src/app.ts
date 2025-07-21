@@ -28,6 +28,7 @@ const pubClient = new Redis({
 const subClient = pubClient.duplicate();
 
 const io = new Server(currServer, {
+    path: "/chat/",
     adapter: createAdapter(pubClient, subClient),
     cors: {
         origin: "*",

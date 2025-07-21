@@ -1,4 +1,13 @@
 services:
+    nginx:
+        image: nginx:stable-alpine3.21-perl
+        ports:
+            - 80:80
+        volumes:
+            - ./nginx.conf:/etc/nginx/nginx.conf
+        depends_on:
+            - auth
+            - gateway
     mysql:
         image: mysql:oraclelinux9
         environment:
@@ -6,19 +15,19 @@ services:
             MYSQL_DATABASE: chatdb
             MYSQL_USER: admin
             MYSQL_PASSWORD: admin
-        ports:
-            - "3307:3306"
+        # ports:
+        # - "3307:3306"
         volumes:
             - "mysql-data:/var/lib/mysql"
     rabbitmq:
         image: rabbitmq:4-management
-        ports:
-            - "5672:5672"
-            - "15672:15672"
+        # ports:
+        # - "5672:5672"
+        # - "15672:15672"
     redis:
         image: redis:7.4.5-alpine3.21
-        ports:
-            - "6379:6379"
+        # ports:
+        # - "6379:6379"
     auth:
         image: neerajsurjaye/auth:latest
         # ports:
@@ -36,8 +45,8 @@ services:
 
     gateway:
         image: neerajsurjaye/gateway:latest
-        ports:
-            - 5758:5758
+        # ports:
+        # - 5758:5758
         environment:
             AUTH_URL: http://auth:5757
             RABBIT_URL: amqp://rabbitmq:5672
@@ -58,5 +67,6 @@ services:
             MYSQL_DB: chatdb
             MYSQL_PORT: 3306
             PORT: 5759
+            AUTH_URL: http://auth:5757
 volumes:
     mysql-data:

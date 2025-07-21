@@ -17,10 +17,15 @@ class SocketHandler {
 
     private static init() {
         this.socket = io(SOCKET_URL, {
+            path: "/chat/",
             extraHeaders: {
                 Authorization:
                     "bearer " + localStorage.getItem(LOCAL_STORAGE_AUTH_TOKEN),
             },
+        });
+
+        this.socket.on("error", (err) => {
+            console.log("Socket Error :: ", err);
         });
     }
 
