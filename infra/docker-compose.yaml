@@ -15,6 +15,10 @@ services:
         ports:
             - "5672:5672"
             - "15672:15672"
+    redis:
+        image: redis:7.4.5-alpine3.21
+        ports:
+            - "6379:6379"
     auth:
         image: neerajsurjaye/auth:latest
         # ports:
@@ -39,6 +43,8 @@ services:
             RABBIT_URL: amqp://rabbitmq:5672
             PORT: 5758
             ARCHIVER_URL: http://archiver:5759
+            REDIS_HOST: redis
+            REDIS_PORT: 6379
 
     archiver:
         image: neerajsurjaye/archiver:latest

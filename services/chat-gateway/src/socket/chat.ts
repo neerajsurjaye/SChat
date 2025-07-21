@@ -4,19 +4,30 @@ import logger from "../utils/logger.js";
 import commonUtils from "../utils/commonUtils.js";
 import constants from "../utils/constants.js";
 import HandleAmqp from "../rabbitmq/handleAmqp.js";
+import { Redis } from "ioredis";
 
 dotenv.config({ path: ".env" });
 
 const AUTH_URL = process.env.AUTH_URL;
+const REDIS_HOST = process.env.REDIS_HOST;
+const REDIS_PORT = Number(process.env.REDIS_PORT);
 
 commonUtils.checkEnv({ AUTH_URL });
+
+const redis = new Redis({
+    host: REDIS_HOST,
+    port: REDIS_PORT,
+});
+redis.on("error", (err) => {
+    logger.error("Got error from redis", err);
+});
 
 let queueConnection: HandleAmqp;
 
 function configSocket(
     io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>
 ) {
-    const users = {};
+    // const users = {};
 
     io.use(async (socket, next) => {
         const rawToken = socket.handshake.headers.authorization;
@@ -64,10 +75,11 @@ function configSocket(
         }
     });
 
-    io.on("connection", (socket: Socket) => {
+    io.on("connection", async (socket: Socket) => {
         const userid: string = String(socket.data.user);
 
-        if (userid in users) {
+        // if (userid in users) {
+        if (await redis.exists(userid)) {
             socket.emit(
                 constants.SOCKET_EVENT_ERROR,
                 `User already connected in another tab cannot connect`
@@ -75,7 +87,8 @@ function configSocket(
             return;
         }
 
-        users[userid] = socket.id;
+        // users[userid] = socket.id;
+        await redis.set(userid, socket.id);
 
         socket.emit(
             constants.SOCKET_EVENT_STATUS,
@@ -83,7 +96,8 @@ function configSocket(
         );
 
         socket.on(constants.SOCKET_EVENT_MESSAGE, async (data) => {
-            const receiverid = users[data.to];
+            // const receiverid = users[data.to];
+            const receiverid = await redis.get(data.to);
 
             if (!data.to || data.to == "") {
                 socket.emit(
@@ -119,10 +133,12 @@ function configSocket(
             }
         });
 
-        socket.on(constants.SOCKET_EVENT_DISCONNECT, (reason) => {
-            if (users[userid] === socket.id) {
+        socket.on(constants.SOCKET_EVENT_DISCONNECT, async (reason) => {
+            // if (users[userid] === socket.id) {
+            if ((await redis.get(userid)) === socket.id) {
                 logger.debug(`Disconnected :: ${userid}`);
-                delete users[userid];
+                // delete users[userid];
+                await redis.del(userid);
             } else {
                 logger.warn("Not deleting userid multiple tabs");
             }
