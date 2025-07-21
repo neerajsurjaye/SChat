@@ -9,7 +9,7 @@ export default function HomePage() {
     return (
         <div className="page home-page">
             <div className="home-cont">
-                <p>Welcome to SChat</p>
+                <p>Welcome to</p>
                 <h1 className="banner">SChat</h1>
 
                 <div className="flex-row">

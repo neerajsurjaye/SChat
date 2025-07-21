@@ -23,6 +23,11 @@ function App() {
                     <Route path={"chat"} Component={ChatPage}></Route>
                 </Routes>
             </AppContext>
+            <div className="footer">
+                <a href="https://github.com/neerajsurjaye" target="_blank">
+                    © Neeraj Surjaye
+                </a>
+            </div>
         </BrowserRouter>
         // </div>
     );
