@@ -15,7 +15,7 @@ class HandleAmqp {
     channel: Channel;
     isInitializing = false;
 
-    static instance: HandleAmqp;
+    private static instance: HandleAmqp;
 
     private constructor() {}
 
