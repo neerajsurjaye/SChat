@@ -1,7 +1,15 @@
-import { useState } from "react";
+import { useState, type Dispatch, type SetStateAction } from "react";
 import "../css/chatInput.css";
 
-function ChatInput(props: any) {
+function ChatInput(
+    props: Readonly<{
+        setUserMessage: Dispatch<
+            SetStateAction<{
+                message: string;
+            }>
+        >;
+    }>
+) {
     let [message, setMessage] = useState("");
     let setUserMessage = props.setUserMessage;
 
@@ -9,9 +17,7 @@ function ChatInput(props: any) {
         <div className="chat-input">
             <input
                 value={message}
-                onChange={(e) => {
-                    setMessage(e.target.value);
-                }}
+                onChange={(e) => setMessage(e.target.value)}
                 className="input"
             />
             <button

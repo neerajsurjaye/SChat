@@ -1,6 +1,7 @@
 .user-list-comp {
     border: 1px solid black;
     margin: 2px;
+    display: flex !important;
 }
 
 .user-list-comp:hover {
@@ -12,14 +13,12 @@
     flex-direction: column;
 }
 
-.user-list-comp {
-    display: flex !important;
-}
-
 .user-list-comp > .username {
     width: 80%;
+    text-align: left;
 }
 
 .user-list-comp > .messages {
     display: flex;
+    color: #888;
 }

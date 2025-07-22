@@ -7,7 +7,7 @@ export default function HomePage() {
     const { isLoggedIn } = useContext(AppContext);
 
     return (
-        <div className="page home-page">
+        <div className="page">
             <div className="home-cont">
                 <p>Welcome to</p>
                 <h1 className="banner">SChat</h1>

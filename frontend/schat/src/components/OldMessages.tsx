@@ -40,8 +40,6 @@ export default function OldMessages() {
 
         setMessageComp(
             userMessages?.data?.map((msg: any) => {
-                console.log(msg);
-
                 return (
                     <Message
                         message={msg.message}

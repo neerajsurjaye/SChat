@@ -3,11 +3,9 @@ import SocketHandler from "../utils/socket";
 import { ChatContext } from "../context/ChatContext";
 import "../css/userList.css";
 
-export default function UsersList(props: any) {
+export default function UsersList() {
     const socket = SocketHandler.getSocket();
-
     let { toUser, setToUser } = useContext(ChatContext);
-
     const [users, setUsers] = useState<
         { username: string; messages: number }[]
     >([]);
@@ -31,32 +29,35 @@ export default function UsersList(props: any) {
         return userCompList;
     };
 
-    const handleMessage = useCallback((msg: any) => {
-        if (!msg.from || !msg.to || !msg.message) {
-            return;
-        }
-        if (msg.from != toUser) {
-            setUsers((oldUsers) => {
-                console.log("userUpdated");
+    const handleMessage = useCallback(
+        (msg: { from: string; to: string; message: string }) => {
+            if (!msg.from || !msg.to || !msg.message) {
+                return;
+            }
+            if (msg.from != toUser) {
+                setUsers((oldUsers) => {
+                    console.log("userUpdated");
 
-                let newUsers = [...oldUsers];
-                let userUpdated = false;
+                    let newUsers = [...oldUsers];
+                    let userUpdated = false;
 
-                for (let x in newUsers) {
-                    if (newUsers[x].username == msg.from) {
-                        newUsers[x].messages += 1;
-                        userUpdated = true;
-                        break;
+                    for (let x in newUsers) {
+                        if (newUsers[x].username == msg.from) {
+                            newUsers[x].messages += 1;
+                            userUpdated = true;
+                            break;
+                        }
                     }
-                }
 
-                if (!userUpdated) {
-                    newUsers.push({ username: msg.from, messages: 1 });
-                }
-                return newUsers;
-            });
-        }
-    }, []);
+                    if (!userUpdated) {
+                        newUsers.push({ username: msg.from, messages: 1 });
+                    }
+                    return newUsers;
+                });
+            }
+        },
+        []
+    );
 
     useEffect(() => {
         socket.on("message", handleMessage);

@@ -1,14 +1,20 @@
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import ChatInput from "./ChatInput";
 import ChatMessages from "./ChatMessages";
-import { MESSAGE_TYPE_RECEIVED, MESSAGE_TYPE_SEND } from "../utils/constants";
+import {
+    MESSAGE_TYPE_RECEIVED,
+    MESSAGE_TYPE_SEND,
+    MODAL_TYPE_WARN,
+} from "../utils/constants";
 
 import SocketHandler from "../utils/socket";
 import OldMessages from "./OldMessages";
 
 import "../css/chat.css";
+import { ChatContext } from "../context/ChatContext";
+import Modal from "./Modal";
 
-function Chat(props: any) {
+function Chat() {
     let [userMessage, setUserMessage] = useState<{ message: string }>({
         message: "",
     });
@@ -21,32 +27,30 @@ function Chat(props: any) {
         message: string;
         iat: any;
     }>();
-    // let toUser = useContext();
-    let toUser = props.toUser;
 
-    // const socket = initializeSocket();
+    let chatMessageRef = useRef<HTMLDivElement>(null);
+
+    let { toUser } = useContext(ChatContext);
 
     let socket = SocketHandler.getSocket();
 
     const handleMessage = useCallback(
-        (msg: any) => {
-            console.log("OnMessage ", { msg, toUser: props.toUser });
-
+        (msg: { from: string; to: string; message: string }) => {
             if (!msg.from || !msg.to || !msg.message) {
                 return;
             }
-            if (msg.from == props.toUser) {
+            if (msg.from == toUser) {
                 setReceivedMessage({ message: msg.message });
             } else {
-                console.log(
+                console.error(
                     "Message from external user :: ",
                     msg.from,
                     "Current to user",
-                    props.toUser
+                    toUser
                 );
             }
         },
-        [props.toUser]
+        [toUser]
     );
 
     useEffect(() => {
@@ -58,8 +62,6 @@ function Chat(props: any) {
     }, [handleMessage]);
 
     useEffect(() => {
-        console.log("Input Changed :: ", { userMessage });
-
         if (userMessage.message != "") {
             socket.emit("message", {
                 to: toUser,
@@ -85,10 +87,26 @@ function Chat(props: any) {
         }
     }, [receivedMessage]);
 
-    return (
+    useEffect(() => {
+        setTimeout(() => {
+            if (chatMessageRef.current) {
+                chatMessageRef.current.scrollTop =
+                    chatMessageRef.current.scrollHeight;
+            }
+        }, 100);
+    }, [userMessage, toUser]);
+
+    return !toUser || toUser == "" ? (
+        <div className="chat">
+            <Modal
+                type={MODAL_TYPE_WARN}
+                message={"Choose a user to send message to"}
+            ></Modal>
+        </div>
+    ) : (
         <div className="chat">
             <div className="receiver">{toUser}</div>
-            <div className="chat-messages">
+            <div className="chat-messages" ref={chatMessageRef}>
                 <OldMessages></OldMessages>
                 <ChatMessages message={message}></ChatMessages>
             </div>

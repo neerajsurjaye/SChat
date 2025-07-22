@@ -98,7 +98,7 @@ body {
 }
 
 .input-container > span {
-    color: rgba(255, 255, 255, 0.9);
+    color: rgba(255, 255, 255, 0.6);
     margin-bottom: 2px;
 }
 
@@ -108,4 +108,12 @@ body {
 
 .footer {
     text-align: center;
+}
+
+.page {
+    display: flex;
+    /* align-items: center; */
+    padding-top: 10%;
+    justify-content: center;
+    height: calc(100% - 75px);
 }

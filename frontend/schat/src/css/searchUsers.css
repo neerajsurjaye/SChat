@@ -1,6 +1,7 @@
 .search-users {
     margin: 2px;
-    background-color: #333;
+    /* background-color: #222; */
+    border: 1px solid #222;
     padding: 4px;
     max-height: 250px;
     overflow: hidden;

@@ -1,10 +1,10 @@
-import { use, useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { sendGetRequest } from "../utils/network";
 import { generateUrl } from "../utils/url";
 import { ChatContext } from "../context/ChatContext";
 import "../css/searchUsers.css";
 
-export default function SearchUsers(props: any) {
+export default function SearchUsers() {
     let [username, setUsername] = useState("");
     let [searchedUsers, setSearchedUsers] = useState<string[]>([]);
     let { setToUser } = useContext(ChatContext);
@@ -27,9 +27,7 @@ export default function SearchUsers(props: any) {
     let genUserList = () => {
         return searchedUsers.map((user) => (
             <button
-                onClick={() => {
-                    setToUser(user);
-                }}
+                onClick={() => setToUser(user)}
                 key={user}
                 className="btn btn-small"
             >

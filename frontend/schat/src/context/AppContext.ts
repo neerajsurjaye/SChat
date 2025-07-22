@@ -1,6 +1,6 @@
-import { createContext } from "react";
+import { createContext, type Dispatch, type SetStateAction } from "react";
 
 export const AppContext = createContext<{
     isLoggedIn: boolean;
-    setIsLoggedIn: any;
-}>({ isLoggedIn: false, setIsLoggedIn: null });
+    setIsLoggedIn: Dispatch<SetStateAction<boolean>>;
+}>({ isLoggedIn: false, setIsLoggedIn: () => {} });

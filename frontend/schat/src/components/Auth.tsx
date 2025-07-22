@@ -23,9 +23,8 @@ export default function Auth() {
         message: string;
     }>({ type: "", message: "" });
 
-    async function login(userDetails: any) {
+    async function login(userDetails: { username: string; password: string }) {
         let resp = await sendPostRequest("/auth/v1/user/login", userDetails);
-        console.log("RespData", resp);
 
         if (resp.success) {
             localStorage.setItem(LOCAL_STORAGE_AUTH_TOKEN, resp.data);
@@ -43,9 +42,8 @@ export default function Auth() {
         }
     }
 
-    async function signUp(userDetails: any) {
+    async function signUp(userDetails: { username: string; password: string }) {
         let resp = await sendPostRequest("/auth/v1/user/", userDetails);
-        console.log("RespData", resp);
 
         if (resp.success) {
             localStorage.setItem(LOCAL_STORAGE_AUTH_TOKEN, resp.data);
@@ -95,20 +93,10 @@ export default function Auth() {
             </div>
 
             <div className="flex-row">
-                <button
-                    className="btn"
-                    onClick={() => {
-                        login(userDetails);
-                    }}
-                >
+                <button className="btn" onClick={() => login(userDetails)}>
                     Login
                 </button>
-                <button
-                    className="btn"
-                    onClick={() => {
-                        signUp(userDetails);
-                    }}
-                >
+                <button className="btn" onClick={() => signUp(userDetails)}>
                     Register
                 </button>
             </div>

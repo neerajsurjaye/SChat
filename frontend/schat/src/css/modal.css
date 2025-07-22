@@ -7,12 +7,12 @@
     display: none;
     align-items: center;
     justify-content: center;
+    height: fit-content;
 }
 
 .modal_success {
     background-color: rgba(90, 200, 90, 0.2);
     border: 2px solid rgba(127, 255, 127, 0.8);
-    margin: 8px;
     padding: 16px;
     box-shadow: 0px 0px 4px #3a3;
     color: #cfc;
@@ -22,7 +22,6 @@
 .modal_error {
     background-color: rgba(200, 90, 90, 0.2);
     border: 2px solid rgba(255, 127, 127, 0.8);
-    margin: 8px;
     padding: 16px;
     box-shadow: 0px 0px 4px #a33;
     color: #fcc;
@@ -32,7 +31,6 @@
 .modal_warn {
     background-color: rgba(200, 200, 90, 0.2);
     border: 2px solid rgba(255, 255, 127, 0.8);
-    margin: 8px;
     padding: 16px;
     box-shadow: 0px 0px 4px #aa3;
     color: #ffc;

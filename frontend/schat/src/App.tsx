@@ -6,6 +6,7 @@ import HomePage from "./pages/HomePage";
 import Navbar from "./components/Navbar";
 import { AppContext } from "./context/AppContext";
 import { LOCAL_STORAGE_AUTH_TOKEN } from "./utils/constants";
+import Footer from "./components/footer";
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(
@@ -13,7 +14,6 @@ function App() {
     );
 
     return (
-        // <div className="page-root">
         <BrowserRouter>
             <AppContext value={{ isLoggedIn, setIsLoggedIn }}>
                 <Navbar></Navbar>
@@ -23,13 +23,8 @@ function App() {
                     <Route path={"chat"} Component={ChatPage}></Route>
                 </Routes>
             </AppContext>
-            <div className="footer">
-                <a href="https://github.com/neerajsurjaye" target="_blank">
-                    © Neeraj Surjaye
-                </a>
-            </div>
+            <Footer></Footer>
         </BrowserRouter>
-        // </div>
     );
 }
 

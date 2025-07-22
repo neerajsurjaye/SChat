@@ -1,7 +1,7 @@
 import { Link } from "react-router";
 import "../css/navBar.css";
 import { LOCAL_STORAGE_AUTH_TOKEN } from "../utils/constants";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { AppContext } from "../context/AppContext";
 import SocketHandler from "../utils/socket";
 
