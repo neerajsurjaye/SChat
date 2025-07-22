@@ -11,7 +11,7 @@ const JWT_SECRET = process.env.JWT_SECRET;
 
 util.checkEnv({ JWT_SECRET });
 
-async function registerUser(req: Request, res: Response) {
+export async function registerUser(req: Request, res: Response) {
     const username: string = req.body?.username;
     const password: string = req.body?.password;
 
@@ -57,7 +57,7 @@ async function registerUser(req: Request, res: Response) {
     //return jwt back to user
 }
 
-const verifyJWT = (req: Request, res: Response) => {
+export function verifyJWT(req: Request, res: Response) {
     const authHeader = req.headers.authorization;
 
     const rawJwtToken = authHeader?.split(" ")[1];
@@ -87,9 +87,9 @@ const verifyJWT = (req: Request, res: Response) => {
     res.status(200).json(
         util.successResp("JWT verified", { username: username })
     );
-};
+}
 
-const generateJWT = async (req: Request, res: Response) => {
+export async function generateJWT(req: Request, res: Response) {
     const username: string = req.body?.username;
     const password: string = req.body?.password;
 
@@ -121,9 +121,9 @@ const generateJWT = async (req: Request, res: Response) => {
     const resJwt: string = jwt.sign({ username: username }, jwtSecret);
 
     res.status(200).json(util.successResp("JWT created", resJwt));
-};
+}
 
-const searchUser = async (req: Request, res: Response) => {
+export async function searchUser(req: Request, res: Response) {
     let username = req.query.username as string;
     const mysqlConn: Pool = MySqlClient.getMySqlConnection();
 
@@ -139,13 +139,4 @@ const searchUser = async (req: Request, res: Response) => {
 
     let existingUsers = users.map((x) => x.username);
     res.status(200).send(util.successResp("Users fetched", existingUsers));
-};
-
-const services = {
-    registerUser,
-    verifyJWT,
-    generateJWT,
-    searchUser,
-};
-
-export default services;
+}
