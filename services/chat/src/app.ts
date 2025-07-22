@@ -37,7 +37,8 @@ const io = new Server(currServer, {
 });
 
 configExpress(app);
-registerRoutes(app);
+// depriciated
+// registerRoutes(app);
 
 configSocket(io);
 

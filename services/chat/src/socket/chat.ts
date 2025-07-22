@@ -27,8 +27,6 @@ let queueConnection: HandleAmqp;
 function configSocket(
     io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>
 ) {
-    // const users = {};
-
     io.use(async (socket, next) => {
         const rawToken = socket.handshake.headers.authorization;
 
@@ -36,13 +34,6 @@ function configSocket(
             return next(new Error("Authentication Error! No Token"));
         }
 
-        //No need to split send the RAW token with bearer <token>
-        // const token = String(rawToken).split(" ")[1];
-        // if (!token) {
-        //     return next(new Error("Authentication Error! No Token"));
-        // }
-
-        //auth token verification from auth service
         try {
             const resp = await commonUtils.fetchGet(
                 AUTH_URL,
@@ -79,7 +70,6 @@ function configSocket(
         const userid: string = String(socket.data.user);
         console.debug("New User Connected");
 
-        // if (userid in users) {
         if (await redis.exists(userid)) {
             socket.emit(
                 constants.SOCKET_EVENT_ERROR,
@@ -88,7 +78,6 @@ function configSocket(
             return;
         }
 
-        // users[userid] = socket.id;
         await redis.set(userid, socket.id);
 
         socket.emit(
@@ -97,7 +86,6 @@ function configSocket(
         );
 
         socket.on(constants.SOCKET_EVENT_MESSAGE, async (data) => {
-            // const receiverid = users[data.to];
             const receiverid = await redis.get(data.to);
 
             if (!data.to || data.to == "") {
@@ -135,10 +123,8 @@ function configSocket(
         });
 
         socket.on(constants.SOCKET_EVENT_DISCONNECT, async (reason) => {
-            // if (users[userid] === socket.id) {
             if ((await redis.get(userid)) === socket.id) {
                 logger.debug(`Disconnected :: ${userid}`);
-                // delete users[userid];
                 await redis.del(userid);
             } else {
                 logger.warn("Not deleting userid multiple tabs");
