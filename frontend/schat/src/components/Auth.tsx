@@ -2,8 +2,8 @@ import { useContext, useState } from "react";
 import { sendPostRequest } from "../utils/network";
 import {
     LOCAL_STORAGE_AUTH_TOKEN,
-    MODEL_TYPE_ERROR,
-    MODEL_TYPE_SUCCESS,
+    MODAL_TYPE_ERROR,
+    MODAL_TYPE_SUCCESS,
 } from "../utils/constants";
 import SocketHandler from "../utils/socket";
 import Modal from "./Modal";
@@ -31,13 +31,13 @@ export default function Auth() {
             localStorage.setItem(LOCAL_STORAGE_AUTH_TOKEN, resp.data);
             SocketHandler.reCreateSocket();
             setModalState({
-                type: MODEL_TYPE_SUCCESS,
+                type: MODAL_TYPE_SUCCESS,
                 message: "Successfully logged in",
             });
             setIsLoggedIn(true);
         } else {
             setModalState({
-                type: MODEL_TYPE_ERROR,
+                type: MODAL_TYPE_ERROR,
                 message: resp.message,
             });
         }
@@ -51,12 +51,12 @@ export default function Auth() {
             localStorage.setItem(LOCAL_STORAGE_AUTH_TOKEN, resp.data);
             SocketHandler.reCreateSocket();
             setModalState({
-                type: MODEL_TYPE_SUCCESS,
+                type: MODAL_TYPE_SUCCESS,
                 message: "User registered successfully! Please sign in!",
             });
         } else {
             setModalState({
-                type: MODEL_TYPE_ERROR,
+                type: MODAL_TYPE_ERROR,
                 message: resp.message,
             });
         }

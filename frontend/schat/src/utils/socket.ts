@@ -16,6 +16,10 @@ class SocketHandler {
     private static socket: Socket;
 
     private static init() {
+        if (this.socket) {
+            this.socket.disconnect();
+        }
+
         this.socket = io(SOCKET_URL, {
             path: "/chat/",
             extraHeaders: {
@@ -37,6 +41,9 @@ class SocketHandler {
     }
 
     public static reCreateSocket() {
+        if (this.socket) {
+            this.socket.disconnect();
+        }
         this.init();
     }
 }
