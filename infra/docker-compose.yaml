@@ -7,7 +7,7 @@ services:
             - ./nginx.conf:/etc/nginx/nginx.conf
         depends_on:
             - auth
-            - gateway
+            - chat
     mysql:
         image: mysql:oraclelinux9
         environment:
@@ -43,8 +43,8 @@ services:
             MYSQL_PORT: 3306
             JWT_SECRET: SPECSJWTSECRET
 
-    gateway:
-        image: neerajsurjaye/gateway:latest
+    chat:
+        image: neerajsurjaye/chat:latest
         # ports:
         # - 5758:5758
         environment:
