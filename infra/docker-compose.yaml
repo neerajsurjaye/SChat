@@ -37,6 +37,7 @@ services:
             PORT: 5757
             MYSQL_USER: admin
             MYSQL_PASSWORD: admin
+            # My Sql host
             MYSQL_CONNECTION: mysql
             MYSQL_DB: chatdb
             # Port inside container

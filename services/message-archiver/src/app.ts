@@ -3,10 +3,12 @@ import initConsumer from "./initConsumer.js";
 import commonUtils from "./utils/commonUtils.js";
 import logger from "./utils/logger.js";
 import registerRoutes from "./routes.js";
+import initdb from "./db/init-db.js";
 
 const PORT = process.env.PORT;
 commonUtils.checkEnv({ PORT });
 
+initdb();
 initConsumer();
 
 const app = express();

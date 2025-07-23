@@ -4,6 +4,7 @@ import logger from "./utils/logger.js";
 import configExpress from "./utils/config.js";
 import dotenv from "dotenv";
 import commonUtils from "./utils/commonUtils.js";
+import initdb from "./db/init-db.js";
 
 dotenv.config({ path: ".env" });
 
@@ -12,6 +13,7 @@ const PORT = process.env.PORT;
 
 commonUtils.checkEnv({ PORT });
 
+initdb();
 configExpress(app);
 registerRoutes(app);
 
