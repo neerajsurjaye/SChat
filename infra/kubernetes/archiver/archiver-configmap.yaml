@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: archiver-configmap
+data:
+    RABBIT_URL: amqp://rabbitmq-service:5672
+    MYSQL_USER: admin
+    MYSQL_PASSWORD: admin
+    MYSQL_CONNECTION: mysql-service
+    MYSQL_DB: chatdb
+    MYSQL_PORT: "3306"
+    PORT: "5759"
+    AUTH_URL: http://auth-service:5757

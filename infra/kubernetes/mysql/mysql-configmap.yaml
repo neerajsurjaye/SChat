@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: mysql-configmap
+data:
+    MYSQL_ROOT_PASSWORD: root
+    MYSQL_DATABASE: chatdb
+    MYSQL_USER: admin
+    MYSQL_PASSWORD: admin

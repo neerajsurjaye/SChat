@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: auth-configmap
+data:
+    USER: SPEC
+    PORT: "5757"
+    MYSQL_USER: admin
+    MYSQL_PASSWORD: admin
+    # My sql host
+    MYSQL_CONNECTION: mysql-service
+    MYSQL_DB: chatdb
+    MYSQL_PORT: "3306"
+    JWT_SECRET: SPECSJWTSECRET
