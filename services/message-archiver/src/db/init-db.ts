@@ -23,7 +23,7 @@ async function initdb() {
     ) `);
 
         await MySqlClient.getMySqlConnection().query(`
-    CREATE INDEX IF NOT EXISTS time_sort_message ON messages(created_at DESC)    
+    CREATE INDEX time_sort_message ON messages(created_at DESC)    
     `);
     } catch (err) {
         logger.error("Error while initialzing db", err);
