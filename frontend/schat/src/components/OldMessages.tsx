@@ -3,7 +3,6 @@ import {
     useContext,
     useEffect,
     useState,
-    type FC,
     type ReactNode,
 } from "react";
 import { ChatContext } from "../context/ChatContext";
