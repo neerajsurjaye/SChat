@@ -10,4 +10,4 @@ data:
     MYSQL_DB: chatdb
     MYSQL_PORT: "3306"
     PORT: "5759"
-    AUTH_URL: http://auth-service:5757
+    AUTH_URL: http://auth:5757

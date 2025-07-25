@@ -1,7 +1,7 @@
 import { io, Socket } from "socket.io-client";
 import { LOCAL_STORAGE_AUTH_TOKEN } from "./constants";
 
-const SOCKET_URL = import.meta.env.VITE_SOCKET_URL;
+const SOCKET_URL = import.meta.env.VITE_GATEWAY_BASE_URL;
 
 console.log("Fetched from LC", localStorage.getItem(LOCAL_STORAGE_AUTH_TOKEN));
 

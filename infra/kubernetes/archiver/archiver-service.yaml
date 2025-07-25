@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-    name: archiver-service
+    name: archiver
 spec:
     selector:
         app: archiver
