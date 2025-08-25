@@ -1,6 +1,7 @@
 import express, { Express, Router } from "express";
 import {
     generateJWT,
+    pong,
     registerUser,
     searchUser,
     verifyJWT,
@@ -12,6 +13,7 @@ const routesV1 = (): Router => {
     router.get("/user/verify", verifyJWT);
     router.post("/user/login", generateJWT);
     router.get("/user/search", searchUser);
+    router.get("/ping-v1", pong);
     return router;
 };
 
