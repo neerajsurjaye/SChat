@@ -5,6 +5,7 @@ import configExpress from "./utils/config.js";
 import dotenv from "dotenv";
 import commonUtils from "./utils/commonUtils.js";
 import initdb from "./db/init-db.js";
+import { pong } from "./services.js";
 
 dotenv.config({ path: ".env" });
 
@@ -16,6 +17,9 @@ commonUtils.checkEnv({ PORT });
 initdb();
 configExpress(app);
 registerRoutes(app);
+
+app.get("/", pong);
+app.get("/ping", pong);
 
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
     logger.error(`Catched exception in global error handler :`, err);

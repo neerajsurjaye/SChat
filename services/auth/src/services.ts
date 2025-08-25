@@ -140,3 +140,7 @@ export async function searchUser(req: Request, res: Response) {
     let existingUsers = users.map((x) => x.username);
     res.status(200).send(util.successResp("Users fetched", existingUsers));
 }
+
+export async function pong(req: Request, res: Response) {
+    res.send("Pong");
+}
