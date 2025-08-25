@@ -23,7 +23,7 @@ spec:
                 - name: auth
 
                   image: 973314619659.dkr.ecr.us-east-1.amazonaws.com/neerajsurjaye/auth:latest
-                  imagePullPolicy: IfNotPresent
+                  imagePullPolicy: Always
 
                   ports:
                       - containerPort: 5757

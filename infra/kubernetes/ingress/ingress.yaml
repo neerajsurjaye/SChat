@@ -5,7 +5,7 @@ metadata:
     namespace: default
     annotations:
         kubernetes.io/ingress.class: "nginx"
-        nginx.ingress.kubernetes.io/rewrite-target: /
+        nginx.ingress.kubernetes.io/rewrite-target: /$2
 
         # Websocket support for /chat
         nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
@@ -23,24 +23,24 @@ spec:
         # - host: schat.com # optional: replace with your domain, or omit for ELB DNS
         - http:
               paths:
-                  - path: /auth/
-                    pathType: Prefix
+                  - path: /auth(/|$)(.*)
+                    pathType: ImplementationSpecific
                     backend:
                         service:
                             name: auth
                             port:
                                 number: 5757
 
-                  - path: /archive/
-                    pathType: Prefix
+                  - path: /archive(/|$)(.*)
+                    pathType: ImplementationSpecific
                     backend:
                         service:
                             name: archiver
                             port:
                                 number: 5759
 
-                  - path: /chat/
-                    pathType: Prefix
+                  - path: /chat(/|$)(.*)
+                    pathType: ImplementationSpecific
                     backend:
                         service:
                             name: chat
