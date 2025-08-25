@@ -14,6 +14,14 @@ const PORT = process.env.PORT;
 
 commonUtils.checkEnv({ PORT });
 
+//** Testing paths */
+app.use((req: Request, res: Response, next: NextFunction) => {
+    logger.info(`req.path: ${req.path}`);
+    logger.info(`req.originalUrl: ${req.originalUrl}`);
+    logger.info(`req.url: ${req.url}`);
+    next();
+});
+
 initdb();
 configExpress(app);
 registerRoutes(app);
