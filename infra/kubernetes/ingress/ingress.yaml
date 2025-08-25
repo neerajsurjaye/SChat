@@ -1,0 +1,48 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+    name: app-ingress
+    namespace: default
+    annotations:
+        kubernetes.io/ingress.class: "nginx"
+        nginx.ingress.kubernetes.io/rewrite-target: /
+
+        # Websocket support for /chat
+        nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+        nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+        nginx.ingress.kubernetes.io/websocket-services: "chat-service"
+
+        # CORS config (optional, matches your add_header lines)
+        nginx.ingress.kubernetes.io/enable-cors: "true"
+        nginx.ingress.kubernetes.io/cors-allow-origin: "*"
+        nginx.ingress.kubernetes.io/cors-allow-methods: "PUT, GET, POST, OPTIONS, DELETE"
+        nginx.ingress.kubernetes.io/cors-allow-headers: "Authorization, Content-Type, Accept"
+
+spec:
+    rules:
+        # - host: schat.com # optional: replace with your domain, or omit for ELB DNS
+        - http:
+              paths:
+                  - path: /auth/
+                    pathType: Prefix
+                    backend:
+                        service:
+                            name: auth
+                            port:
+                                number: 5757
+
+                  - path: /archive/
+                    pathType: Prefix
+                    backend:
+                        service:
+                            name: archiver
+                            port:
+                                number: 5759
+
+                  - path: /chat/
+                    pathType: Prefix
+                    backend:
+                        service:
+                            name: chat
+                            port:
+                                number: 5758

@@ -22,11 +22,13 @@ spec:
             containers:
                 - name: auth
 
-                  image: neerajsurjaye/auth:latest
-                  imagePullPolicy: Never
+                  image: 973314619659.dkr.ecr.us-east-1.amazonaws.com/neerajsurjaye/auth:latest
+                  imagePullPolicy: IfNotPresent
 
                   ports:
                       - containerPort: 5757
                   envFrom:
                       - configMapRef:
                             name: auth-configmap
+                      - secretRef:
+                            name: auth-secrets

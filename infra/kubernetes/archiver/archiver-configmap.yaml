@@ -3,11 +3,10 @@ kind: ConfigMap
 metadata:
     name: archiver-configmap
 data:
-    RABBIT_URL: amqp://rabbitmq-service:5672
+    RABBIT_URL: "amqps://admin:RabbitMqPass@b-b1572a92-3b11-4bd4-9c6a-5bfa36e15548.mq.us-east-1.on.aws:5671"
     MYSQL_USER: admin
-    MYSQL_PASSWORD: admin
-    MYSQL_CONNECTION: mysql-service
+    MYSQL_CONNECTION: "schat-db.cyniuw0qkokl.us-east-1.rds.amazonaws.com"
     MYSQL_DB: chatdb
     MYSQL_PORT: "3306"
     PORT: "5759"
-    AUTH_URL: http://auth:5757
+    AUTH_URL: "http://auth:5757"

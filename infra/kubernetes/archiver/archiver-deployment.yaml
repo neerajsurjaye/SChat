@@ -22,8 +22,8 @@ spec:
             containers:
                 - name: archiver
 
-                  image: neerajsurjaye/archiver:latest
-                  imagePullPolicy: Never
+                  image: 973314619659.dkr.ecr.us-east-1.amazonaws.com/neerajsurjaye/archiver:latest
+                  imagePullPolicy: IfNotPresent
 
                   ports:
                       - containerPort: 5759
@@ -31,3 +31,5 @@ spec:
                   envFrom:
                       - configMapRef:
                             name: archiver-configmap
+                      - secretRef:
+                            name: archiver-secrets
