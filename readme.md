@@ -14,6 +14,12 @@ Using **Docker** for containerization. And ready for deployment with **Docker Co
 
 ## Architecture
 
+### AWS
+
+![alt text](./assets/Arcitecture_AWS.jpg)
+
+### Self Hosted
+
 ![alt text](./assets/schat.drawio_bb934724.gif)
 
 ## Tech used
@@ -23,7 +29,7 @@ Using **Docker** for containerization. And ready for deployment with **Docker Co
 -   **Database** - MySQL, Redis (for caching)
 -   **Message Queue** - RabbitMQ
 -   **Load Balancer** - Nginx
--   **Containerization and deployment** - Docker, Docker Compose, Kubernetes
+-   **Containerization and deployment** - Docker, Docker Compose, Kubernetes, AWS
 
 ## License
 
