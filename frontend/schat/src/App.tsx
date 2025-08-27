@@ -19,8 +19,8 @@ function App() {
                 <Navbar></Navbar>
                 <Routes>
                     <Route path="/" Component={HomePage}></Route>
-                    <Route path={"auth"} Component={AuthPage}></Route>
-                    <Route path={"chat"} Component={ChatPage}></Route>
+                    <Route path={"authentication"} Component={AuthPage}></Route>
+                    <Route path={"messages"} Component={ChatPage}></Route>
                 </Routes>
             </AppContext>
             <Footer></Footer>

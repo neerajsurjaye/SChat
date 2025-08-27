@@ -20,7 +20,7 @@ export default function Navbar() {
                 <h2>SChat</h2>
             </Link>
 
-            <Link className="mr-lft-auto btn nav-btn" to={"/chat"}>
+            <Link className="mr-lft-auto btn nav-btn" to={"/messages"}>
                 Chat
             </Link>
 
@@ -29,7 +29,7 @@ export default function Navbar() {
                     Sign Out
                 </button>
             ) : (
-                <Link className="btn nav-btn" to={"/auth"}>
+                <Link className="btn nav-btn" to={"/authentication"}>
                     Log in
                 </Link>
             )}

@@ -15,11 +15,11 @@ export default function HomePage() {
                 <div className="flex-row">
                     <Link
                         className={`btn ${isLoggedIn ? "display-none" : ""}`}
-                        to={"/auth"}
+                        to={"/authentication"}
                     >
                         Login
                     </Link>
-                    <Link className="btn" to={"/chat"}>
+                    <Link className="btn" to={"/messages"}>
                         Chat with other users
                     </Link>
                 </div>
