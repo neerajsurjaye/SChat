@@ -21,7 +21,7 @@ class SocketHandler {
         }
 
         this.socket = io(SOCKET_URL, {
-            path: "/chat/",
+            path: "/socket.io",
             extraHeaders: {
                 Authorization:
                     "bearer " + localStorage.getItem(LOCAL_STORAGE_AUTH_TOKEN),

@@ -9,6 +9,7 @@ import registerRoutes from "./routes.js";
 import commonUtils from "./utils/commonUtils.js";
 import { createAdapter } from "@socket.io/redis-adapter";
 import { Redis } from "ioredis";
+import { log } from "node:console";
 
 dotenv.config({ path: ".env" });
 const port = process.env.PORT || 5000;
@@ -19,16 +20,28 @@ const REDIS_PORT = Number(process.env.REDIS_PORT);
 commonUtils.checkEnv({ REDIS_HOST, REDIS_PORT });
 
 let app: Express = express();
+
+//** Testing paths */
+app.use((req: Request, res: Response, next: NextFunction) => {
+    logger.error(`req.path: ${req.path}`);
+    logger.error(`req.originalUrl: ${req.originalUrl}`);
+    logger.error(`req.url: ${req.url}`);
+    next();
+});
+logger.error("Registered Logger");
+log("Checking with console.log");
+
 const currServer = createServer(app);
 
 const pubClient = new Redis({
     host: REDIS_HOST,
     port: REDIS_PORT,
+    tls: {},
 });
 const subClient = pubClient.duplicate();
 
 const io = new Server(currServer, {
-    path: "/chat/",
+    path: "/socket.io",
     adapter: createAdapter(pubClient, subClient),
     cors: {
         origin: "*",

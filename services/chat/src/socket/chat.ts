@@ -17,6 +17,8 @@ commonUtils.checkEnv({ AUTH_URL });
 const redis = new Redis({
     host: REDIS_HOST,
     port: REDIS_PORT,
+    connectTimeout: 5000,
+    tls: {},
 });
 redis.on("error", (err) => {
     logger.error("Got error from redis", err);
@@ -30,6 +32,7 @@ function configSocket(
     io.use(async (socket, next) => {
         const rawToken = socket.handshake.headers.authorization;
 
+        logger.error(`Logging in user with token :: ${rawToken}`);
         if (!rawToken) {
             return next(new Error("Authentication Error! No Token"));
         }
@@ -45,6 +48,9 @@ function configSocket(
                 }
             );
             if (resp.status != 200) {
+                logger.error(
+                    `Error from auth : ${resp.json?.message} : with status ${resp.status}`
+                );
                 return next(
                     new Error(
                         `Error from auth : ${resp.json?.message} : with status ${resp.status}`
@@ -67,10 +73,22 @@ function configSocket(
     });
 
     io.on("connection", async (socket: Socket) => {
+        logger.error("Inside connection");
+        socket.on("error", (err) => {
+            logger.error(`Error on socket ${socket.id}:`, err);
+        });
+
         const userid: string = String(socket.data.user);
-        console.debug("New User Connected");
+        logger.error("Redis info ", await redis.info());
+        logger.error("New User Connected at : ", socket.request.url);
+        logger.error(
+            "New User Connected with headers : ",
+            socket.request.headers
+        );
+        logger.error(`User connected with userid: ${userid}`);
 
         if (await redis.exists(userid)) {
+            logger.error("User already exists");
             socket.emit(
                 constants.SOCKET_EVENT_ERROR,
                 `User already connected in another tab cannot connect`
@@ -79,6 +97,11 @@ function configSocket(
         }
 
         await redis.set(userid, socket.id);
+        logger.error(
+            `socketid id on redis : ${userid} :: ${await redis.get(
+                userid
+            )} :: local one :: ${socket.id}`
+        );
 
         socket.emit(
             constants.SOCKET_EVENT_STATUS,
@@ -87,6 +110,7 @@ function configSocket(
 
         socket.on(constants.SOCKET_EVENT_MESSAGE, async (data) => {
             const receiverid = await redis.get(data.to);
+            logger.error(`Event Message :: ${receiverid}`);
 
             if (!data.to || data.to == "") {
                 socket.emit(
@@ -96,6 +120,7 @@ function configSocket(
                 return;
             }
 
+            logger.error(`${{ queueConnection }}`);
             if (!queueConnection) {
                 queueConnection = await HandleAmqp.getInstance();
             }

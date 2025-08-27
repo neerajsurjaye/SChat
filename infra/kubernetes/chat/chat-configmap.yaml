@@ -4,8 +4,9 @@ metadata:
     name: chat-configmap
 data:
     AUTH_URL: http://auth:5757
-    RABBIT_URL: amqps://b-b1572a92-3b11-4bd4-9c6a-5bfa36e15548.mq.us-east-1.on.aws:5671
+    RABBIT_URL: "amqps://admin:RabbitMqPass@b-b1572a92-3b11-4bd4-9c6a-5bfa36e15548.mq.us-east-1.on.aws:5671"
     PORT: "5758"
     ARCHIVER_URL: http://archiver:5759
-    REDIS_HOST: clustercfg.schat-cache.ijcy71.use1.cache.amazonaws.com
+    # REDIS_HOST: clustercfg.schat-cache.ijcy71.use1.cache.amazonaws.com
+    REDIS_HOST: "clustercfg.schat-redis-cluster.ijcy71.use1.cache.amazonaws.com"
     REDIS_PORT: "6379"

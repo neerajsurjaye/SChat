@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+    name: app-ingress-socket
+    namespace: default
+    annotations:
+        kubernetes.io/ingress.class: "nginx"
+        nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+        nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+        nginx.ingress.kubernetes.io/websocket-services: "chat-service"
+spec:
+    rules:
+        - http:
+              paths:
+                  - path: /socket.io
+                    pathType: ImplementationSpecific
+                    backend:
+                        service:
+                            name: chat
+                            port:
+                                number: 5758

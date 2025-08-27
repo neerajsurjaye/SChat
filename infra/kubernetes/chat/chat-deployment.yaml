@@ -23,7 +23,7 @@ spec:
                 - name: chat
 
                   image: 973314619659.dkr.ecr.us-east-1.amazonaws.com/neerajsurjaye/chat:latest
-                  imagePullPolicy: IfNotPresent
+                  imagePullPolicy: Always
 
                   ports:
                       - containerPort: 5758
