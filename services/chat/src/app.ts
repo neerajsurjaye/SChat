@@ -21,16 +21,6 @@ commonUtils.checkEnv({ REDIS_HOST, REDIS_PORT });
 
 let app: Express = express();
 
-//** Testing paths */
-app.use((req: Request, res: Response, next: NextFunction) => {
-    logger.error(`req.path: ${req.path}`);
-    logger.error(`req.originalUrl: ${req.originalUrl}`);
-    logger.error(`req.url: ${req.url}`);
-    next();
-});
-logger.error("Registered Logger");
-log("Checking with console.log");
-
 const currServer = createServer(app);
 
 const pubClient = new Redis({

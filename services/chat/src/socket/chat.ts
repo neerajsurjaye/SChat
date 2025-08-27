@@ -32,7 +32,6 @@ function configSocket(
     io.use(async (socket, next) => {
         const rawToken = socket.handshake.headers.authorization;
 
-        logger.error(`Logging in user with token :: ${rawToken}`);
         if (!rawToken) {
             return next(new Error("Authentication Error! No Token"));
         }
@@ -73,19 +72,11 @@ function configSocket(
     });
 
     io.on("connection", async (socket: Socket) => {
-        logger.error("Inside connection");
         socket.on("error", (err) => {
             logger.error(`Error on socket ${socket.id}:`, err);
         });
 
         const userid: string = String(socket.data.user);
-        logger.error("Redis info ", await redis.info());
-        logger.error("New User Connected at : ", socket.request.url);
-        logger.error(
-            "New User Connected with headers : ",
-            socket.request.headers
-        );
-        logger.error(`User connected with userid: ${userid}`);
 
         if (await redis.exists(userid)) {
             logger.error("User already exists");
@@ -110,7 +101,6 @@ function configSocket(
 
         socket.on(constants.SOCKET_EVENT_MESSAGE, async (data) => {
             const receiverid = await redis.get(data.to);
-            logger.error(`Event Message :: ${receiverid}`);
 
             if (!data.to || data.to == "") {
                 socket.emit(
@@ -120,7 +110,6 @@ function configSocket(
                 return;
             }
 
-            logger.error(`${{ queueConnection }}`);
             if (!queueConnection) {
                 queueConnection = await HandleAmqp.getInstance();
             }
